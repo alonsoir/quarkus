@@ -1,0 +1,67 @@
+mvn io.quarkus:quarkus-maven-plugin:1.0.0.CR2:create -DprojectGroupId=ujr.combat.quarkus -DprojectArtifactId=quarkus-echo -DclassName="ujr.combat.quarkus.EchoResource" -Dpath="/echo"
+
+<dependency> 
+<groupId>io.quarkus</groupId>
+<artifactId>quarkus-resteasy-jsonb</artifactId> 
+</dependency>
+
+export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java8-19.3.0/Contents/Home
+
+#error, cannot run
+$GRAALVM_HOME/Home/bin/gu install native-image 
+
+I had to deactivate SIP, running this:
+
+sudo xattr -r -d com.apple.quarantine $GRAALVM_HOME
+
+then, i ran 
+
+$GRAALVM_HOME/Contens/Home/bin/gu install native-image 
+
+
+aironman@MacBook-Pro-de-Alonso ~/g/q/quarkus-echo> echo $GRAALVM_HOME 
+/Library/Java/JavaVirtualMachines/graalvm-ce-java8-19.3.0
+aironman@MacBook-Pro-de-Alonso ~/g/q/quarkus-echo> cd $GRAALVM_HOME 
+aironman@MacBook-Pro-de-Alonso /L/J/J/graalvm-ce-java8-19.3.0> sudo xattr -r -d com.apple.quarantine $GRAALVM_HOME
+Password:
+bash-3.2$ /Library/Java/JavaVirtualMachines/graalvm-ce-java8-19.3.0/Contents/Home/bin/gu install native-image
+Downloading: Component catalog from www.graalvm.org
+Processing Component: Native Image
+Downloading: Component native-image: Native Image  from github.com
+Installing new component: Native Image (org.graalvm.native-image, version 19.3.0)
+
+
+bash-3.2$ export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java8-19.3.0/Contents/Home
+bash-3.2$ /Library/Java/JavaVirtualMachines/graalvm-ce-java8-19.3.0/Contents/Home/bin/gu install native-image
+Downloading: Component catalog from www.graalvm.org
+Processing Component: Native Image
+Component Native Image (org.graalvm.native-image) is already installed.
+bash-3.2$ pwd
+/Users/aironman/gitProjects/quarkus-test/quarkus-echo
+bash-3.2$ mvn install -Pnative
+...
+project quarkus-echo: Failed to build a runnable JAR: Failed to augment application classes: Build failure: Build failed due to errors
+[ERROR] 	[error]: Build step io.quarkus.deployment.pkg.steps.NativeImageBuildStep#build threw an exception: java.lang.IllegalStateException: Unsupported version of GraalVM detected: GraalVM Version 19.3.0 CE. Please use GraalVM 19.2.1.
+[ERROR] 	at io.quarkus.deployment.pkg.steps.NativeImageBuildStep.checkGraalVMVersion(NativeImageBuildStep.java:340)
+[ERROR] 	at io.quarkus.deployment.pkg.steps.NativeImageBuildStep.build(NativeImageBuildStep.java:155)
+[ERROR] 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[ERROR] 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[ERROR] 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[ERROR] 	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+[ERROR] 	at io.quarkus.deployment.ExtensionLoader$2.execute(ExtensionLoader.java:915)
+[ERROR] 	at io.quarkus.builder.BuildContext.run(BuildContext.java:415)
+[ERROR] 	at org.jboss.threads.ContextClassLoaderSavingRunnable.run(ContextClassLoaderSavingRunnable.java:35)
+[ERROR] 	at org.jboss.threads.EnhancedQueueExecutor.safeRun(EnhancedQueueExecutor.java:2011)
+[ERROR] 	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.doRunTask(EnhancedQueueExecutor.java:1535)
+[ERROR] 	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1426)
+[ERROR] 	at java.base/java.lang.Thread.run(Thread.java:830)
+[ERROR] 	at org.jboss.threads.JBossThread.run(JBossThread.java:479)
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+
+Tengo que bajar la version de GRAALVM a la 19.2.1!
